@@ -1,0 +1,32 @@
+{"properties": [
+  {
+    "name": "file.upload-dir",
+    "type": "java.lang.String",
+    "description": "A description for 'file.upload-dir'"
+  },
+  {
+    "name": "stripe.api.key.secret",
+    "type": "java.lang.String",
+    "description": "A description for 'stripe.api.key.secret'"
+  },
+  {
+    "name": "stripe.api.key.public",
+    "type": "java.lang.String",
+    "description": "A description for 'stripe.api.key.public'"
+  },
+  {
+    "name": "admin.email",
+    "type": "java.lang.String",
+    "description": "A description for 'admin.email'"
+  },
+  {
+    "name": "admin.password",
+    "type": "java.lang.String",
+    "description": "A description for 'admin.password'"
+  },
+  {
+    "name": "admin.username",
+    "type": "java.lang.String",
+    "description": "A description for 'admin.username'"
+  }
+]}
