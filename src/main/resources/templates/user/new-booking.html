@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Tour Package - Tour and Travel</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body>
+    <div th:replace="common/header :: header"></div>
+    
+    <div class="container py-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="card shadow">
+                    <div class="card-header bg-primary text-white">
+                        <h4 class="mb-0">Book Tour Package</h4>
+                    </div>
+                    <div class="card-body p-4">
+                        <div th:if="${error}" class="alert alert-danger" th:text="${error}">
+                            Error message
+                        </div>
+                        
+                        <div class="mb-4">
+                            <div class="card mb-3">
+                                <div class="row g-0">
+                                    <div class="col-md-4">
+                                        <img th:src="@{'/uploads/' + ${tourPackage.imageUrl}}" class="img-fluid rounded-start" alt="Package Image">
+                                    </div>
+                                    <div class="col-md-8">
+                                        <div class="card-body">
+                                            <h5 class="card-title" th:text="${tourPackage.name}">Package Name</h5>
+                                            <p class="card-text small">
+                                                <span class="badge bg-primary" th:text="${tourPackage.duration} + ' days'">7 days</span>
+                                                <span class="ms-2"><i class="bi bi-geo-alt"></i> <span th:text="${tourPackage.destination.name}">Destination</span></span>
+                                            </p>
+                                            <p class="card-text" th:text="${tourPackage.description}">Package description</p>
+                                            <p class="card-text fw-bold">Price: <span th:text="'$' + ${tourPackage.price} + ' per person'">$999 per person</span></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <form th:action="@{/booking/create}" method="post">
+                            <input type="hidden" name="packageId" th:value="${tourPackage.id}">
+                            
+                            <div class="mb-3">
+                                <label for="travelDate" class="form-label">Travel Date</label>
+                                <input type="date" class="form-control" id="travelDate" name="travelDate" required
+                                       th:min="${minDate}" th:max="${maxDate}">
+                                <div class="form-text">Select a date within the next 6 months.</div>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="numberOfPeople" class="form-label">Number of People</label>
+                                <input type="number" class="form-control" id="numberOfPeople" name="numberOfPeople" 
+                                       min="1" max="20" value="1" required>
+                            </div>
+                            
+                            <div class="mb-4">
+                                <h5>Booking Summary</h5>
+                                <div class="card bg-light">
+                                    <div class="card-body">
+                                        <div class="d-flex justify-content-between mb-2">
+                                            <span>Package Price:</span>
+                                            <span th:text="'$' + ${tourPackage.price} + ' per person'">$999 per person</span>
+                                        </div>
+                                        <div class="d-flex justify-content-between mb-2">
+                                            <span>Number of People:</span>
+                                            <span id="peopleDisplay">1</span>
+                                        </div>
+                                        <hr>
+                                        <div class="d-flex justify-content-between fw-bold">
+                                            <span>Total Price:</span>
+                                            <span id="totalPrice" th:attr="data-price=${tourPackage.price}" th:text="'$' + ${tourPackage.price}">$999</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="d-grid gap-2">
+                                <button type="submit" class="btn btn-primary">Continue to Payment</button>
+                                <a th:href="@{'/packages/' + ${tourPackage.id}}" class="btn btn-outline-secondary">Cancel</a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div th:replace="common/footer :: footer"></div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script th:src="@{/js/scripts.js}"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const numberOfPeople = document.getElementById('numberOfPeople');
+            const peopleDisplay = document.getElementById('peopleDisplay');
+            const totalPrice = document.getElementById('totalPrice');
+            const basePrice = parseFloat(totalPrice.getAttribute('data-price'));
+            
+            function updateTotal() {
+                const people = parseInt(numberOfPeople.value) || 1;
+                peopleDisplay.textContent = people;
+                totalPrice.textContent = '$' + (basePrice * people).toFixed(2);
+            }
+            
+            numberOfPeople.addEventListener('input', updateTotal);
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tour and Travel - Destinations</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body>
+    <div th:replace="common/header :: header"></div>
+    
+    <div class="destinations-banner py-5 mb-4">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8 offset-md-2 text-center">
+                    <h1>Explore Our Destinations</h1>
+                    <p class="lead">Discover amazing places around the world</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="container my-5">
+        <div class="row">
+            <div class="col-md-3 mb-4">
+                <div class="card">
+                    <div class="card-header bg-primary text-white">
+                        <h5 class="mb-0">Filter By</h5>
+                    </div>
+                    <div class="card-body">
+                        <form>
+                            <div class="mb-3">
+                                <label class="form-label">Region</label>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="asia">
+                                    <label class="form-check-label" for="asia">Asia</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="europe">
+                                    <label class="form-check-label" for="europe">Europe</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="africa">
+                                    <label class="form-check-label" for="africa">Africa</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="northAmerica">
+                                    <label class="form-check-label" for="northAmerica">North America</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="southAmerica">
+                                    <label class="form-check-label" for="southAmerica">South America</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="australia">
+                                    <label class="form-check-label" for="australia">Australia & Oceania</label>
+                                </div>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label class="form-label">Category</label>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="beach">
+                                    <label class="form-check-label" for="beach">Beach</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="mountain">
+                                    <label class="form-check-label" for="mountain">Mountain</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="city">
+                                    <label class="form-check-label" for="city">City</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="adventure">
+                                    <label class="form-check-label" for="adventure">Adventure</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="cultural">
+                                    <label class="form-check-label" for="cultural">Cultural</label>
+                                </div>
+                            </div>
+                            
+                            <button type="submit" class="btn btn-primary w-100">Apply Filters</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-9">
+                <div class="row">
+                    <div class="col-md-4 mb-4" th:each="destination : ${destinations}">
+                        <div class="card h-100">
+                            <img th:src="@{'/uploads/' + ${destination.imageUrl}}" class="card-img-top" alt="Destination">
+                            <div class="card-body">
+                                <h5 class="card-title" th:text="${destination.name}">Destination Name</h5>
+                                <p class="card-text" th:text="${#strings.abbreviate(destination.description, 100)}">Short description</p>
+                                <a th:href="@{'/destinations/' + ${destination.id}}" class="btn btn-outline-primary">Explore</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="text-center mt-3" th:if="${destinations.isEmpty()}">
+                    <p>No destinations found.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div th:replace="common/footer :: footer"></div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script th:src="@{/js/scripts.js}"></script>
+</body>
+</html>

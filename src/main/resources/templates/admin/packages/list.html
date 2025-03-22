@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tour Packages - Tour and Travel</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body>
+    <div th:replace="common/header :: header"></div>
+    
+    <div class="container py-5">
+        <div class="row mb-4">
+            <div class="col-md-6">
+                <h2>Tour Package Management</h2>
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a th:href="@{/admin/dashboard}">Dashboard</a></li>
+                        <li class="breadcrumb-item active">Tour Packages</li>
+                    </ol>
+                </nav>
+            </div>
+            <div class="col-md-6 text-end">
+                <a th:href="@{/admin/packages/new}" class="btn btn-primary">
+                    <i class="bi bi-plus-circle me-1"></i> Add New Package
+                </a>
+            </div>
+        </div>
+        
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0">All Tour Packages</h5>
+            </div>
+            <div class="card-body">
+                <div class="alert alert-success" role="alert" th:if="${success}" th:text="${success}">
+                    Tour package saved successfully!
+                </div>
+                
+                <div class="table-responsive">
+                    <table class="table table-striped table-hover">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Image</th>
+                                <th>Name</th>
+                                <th>Destination</th>
+                                <th>Duration</th>
+                                <th>Price</th>
+                                <th>Featured</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="package : ${packages}">
+                                <td th:text="${package.id}">1</td>
+                                <td>
+                                    <img th:src="@{'/uploads/' + ${package.imageUrl}}" class="img-thumbnail" alt="Package Image" width="50">
+                                </td>
+                                <td th:text="${package.name}">Amazing Tour</td>
+                                <td th:text="${package.destination.name}">Paris</td>
+                                <td th:text="${package.duration + ' days'}">7 days</td>
+                                <td th:text="${'$' + package.price}">$999</td>
+                                <td>
+                                    <span class="badge bg-success" th:if="${package.featured}">Yes</span>
+                                    <span class="badge bg-secondary" th:unless="${package.featured}">No</span>
+                                </td>
+                                <td>
+                                    <a th:href="@{/admin/packages/edit/{id}(id=${package.id})}" class="btn btn-sm btn-outline-warning">
+                                        <i class="bi bi-pencil"></i>
+                                    </a>
+                                    <button class="btn btn-sm btn-outline-danger" data-bs-toggle="modal" th:data-bs-target="'#deleteModal' + ${package.id}">
+                                        <i class="bi bi-trash"></i>
+                                    </button>
+                                    
+                                    <!-- Delete Modal -->
+                                    <div class="modal fade" th:id="'deleteModal' + ${package.id}" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="deleteModalLabel">Confirm Delete</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    Are you sure you want to delete the package "<span th:text="${package.name}"></span>"?
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                                    <a th:href="@{/admin/packages/delete/{id}(id=${package.id})}" class="btn btn-danger">Delete</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr th:if="${packages.empty}">
+                                <td colspan="8" class="text-center">No tour packages available</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div th:replace="common/footer :: footer"></div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script th:src="@{/js/scripts.js}"></script>
+</body>
+</html>

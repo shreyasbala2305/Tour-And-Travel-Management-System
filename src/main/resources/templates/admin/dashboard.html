@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Tour and Travel</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body>
+    <div th:replace="common/header :: header"></div>
+    
+    <div class="container py-5">
+        <div class="row mb-4">
+            <div class="col-md-6">
+                <h2>Admin Dashboard</h2>
+                <p class="text-muted">Manage your tour and travel business</p>
+            </div>
+            <div class="col-md-6 text-end">
+                <p class="text-muted">Welcome, <span sec:authentication="name">Admin</span></p>
+            </div>
+        </div>
+        
+        <div class="row mb-4">
+            <div class="col-md-4 mb-3">
+                <div class="card bg-primary text-white h-100">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <h5 class="card-title">Total Users</h5>
+                                <h2 class="mb-0" th:text="${userCount}">0</h2>
+                            </div>
+                            <i class="bi bi-people-fill fs-1"></i>
+                        </div>
+                    </div>
+                    <div class="card-footer d-flex align-items-center justify-content-between">
+                        <a th:href="@{/admin/users}" class="text-white text-decoration-none">View Details</a>
+                        <div class="small text-white"><i class="bi bi-arrow-right"></i></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-3">
+                <div class="card bg-success text-white h-100">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <h5 class="card-title">Tour Packages</h5>
+                                <h2 class="mb-0" th:text="${packageCount}">0</h2>
+                            </div>
+                            <i class="bi bi-box-seam fs-1"></i>
+                        </div>
+                    </div>
+                    <div class="card-footer d-flex align-items-center justify-content-between">
+                        <a th:href="@{/admin/packages}" class="text-white text-decoration-none">View Details</a>
+                        <div class="small text-white"><i class="bi bi-arrow-right"></i></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-3">
+                <div class="card bg-danger text-white h-100">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <h5 class="card-title">Total Bookings</h5>
+                                <h2 class="mb-0" th:text="${bookingCount}">0</h2>
+                            </div>
+                            <i class="bi bi-calendar-check fs-1"></i>
+                        </div>
+                    </div>
+                    <div class="card-footer d-flex align-items-center justify-content-between">
+                        <a th:href="@{/admin/bookings}" class="text-white text-decoration-none">View Details</a>
+                        <div class="small text-white"><i class="bi bi-arrow-right"></i></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="col-lg-8 mb-4">
+                <div class="card">
+                    <div class="card-header bg-primary text-white">
+                        <h5 class="mb-0">Recent Bookings</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-striped table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>User</th>
+                                        <th>Package</th>
+                                        <th>Date</th>
+                                        <th>Status</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr th:each="booking : ${recentBookings}">
+                                        <td th:text="${booking.id}">1</td>
+                                        <td th:text="${booking.user.username}">user123</td>
+                                        <td th:text="${booking.tourPackage.name}">Package Name</td>
+                                        <td th:text="${#dates.format(booking.bookingDate, 'dd-MM-yyyy')}">01-01-2023</td>
+                                        <td>
+                                            <span class="badge" 
+                                                  th:classappend="${booking.status == T(com.tourandtravel.tourandtravelapplication.model.Booking.BookingStatus).CONFIRMED ? 'bg-success' : 
+                                                                    (booking.status == T(com.tourandtravel.tourandtravelapplication.model.Booking.BookingStatus).PENDING ? 'bg-warning' : 
+                                                                    (booking.status == T(com.tourandtravel.tourandtravelapplication.model.Booking.BookingStatus).CANCELLED ? 'bg-danger' : 'bg-secondary'))}"
+                                                  th:text="${booking.status}">
+                                                PENDING
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <a th:href="@{/admin/bookings/{id}(id=${booking.id})}" class="btn btn-sm btn-outline-primary">View</a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <a th:href="@{/admin/bookings}" class="btn btn-primary">View All Bookings</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 mb-4">
+                <div class="card h-100">
+                    <div class="card-header bg-primary text-white">
+                        <h5 class="mb-0">Quick Actions</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="d-grid gap-3">
+                            <a th:href="@{/admin/packages/new}" class="btn btn-outline-primary">
+                                <i class="bi bi-plus-circle me-2"></i>Add New Package
+                            </a>
+                            <a th:href="@{/admin/destinations/new}" class="btn btn-outline-success">
+                                <i class="bi bi-plus-circle me-2"></i>Add New Destination
+                            </a>
+                            <a th:href="@{/admin/bookings}" class="btn btn-outline-info">
+                                <i class="bi bi-calendar-check me-2"></i>Manage Bookings
+                            </a>
+                            <a th:href="@{/admin/users}" class="btn btn-outline-secondary">
+                                <i class="bi bi-people me-2"></i>Manage Users
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div th:replace="common/footer :: footer"></div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script th:src="@{/js/scripts.js}"></script>
+</body>
+</html>
