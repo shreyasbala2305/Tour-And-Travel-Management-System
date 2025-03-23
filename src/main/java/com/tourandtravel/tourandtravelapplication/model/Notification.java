@@ -22,7 +22,7 @@ public class Notification {
  
  private LocalDateTime createdAt;
  
- private boolean read = false;
+ private boolean isread = false;
  
  @Enumerated(EnumType.STRING)
  private NotificationType type;

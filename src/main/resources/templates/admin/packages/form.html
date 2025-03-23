@@ -97,7 +97,7 @@
                         <label for="imageFile" class="form-label">Package Image</label>
                         <input class="form-control" type="file" id="imageFile" name="imageFile" th:value="*{imageUrl}">
                         <div class="mt-2" th:if="*{imageUrl != null && !imageUrl.isEmpty()}">
-                            <img th:src="@{'/uploads/' + *{imageUrl}}" class="img-thumbnail" alt="Current Image" width="150">
+                            <img th:src="@{'/static/images/' + *{imageUrl}}" class="img-thumbnail" alt="Current Image" width="150">
                             <p class="small text-muted">Current image: <span th:text="*{imageUrl}"></span></p>
                         </div>
                     </div>

@@ -62,9 +62,9 @@
                                 <td th:text="${user.id}">1</td>
                                 <td th:text="${user.username}">johndoe</td>
                                 <td th:text="${user.email}">john@example.com</td>
-                                <td th:text="${user.firstName + ' ' + user.lastName}">John Doe</td>
+                                <td th:text="${user.fullName}">John Doe</td>
                                 <td>
-                                    <span class="badge bg-secondary" th:each="role : ${user.roles}" th:text="${role.name}">USER</span>
+                                    <span class="badge bg-secondary" th:each="role : ${user.role}" th:text="${role.name}">USER</span>
                                 </td>
                                 <td>
                                     <span class="badge bg-success" th:if="${user.enabled}">Active</span>

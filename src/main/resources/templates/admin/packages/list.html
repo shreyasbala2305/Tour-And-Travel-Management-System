@@ -56,7 +56,7 @@
                             <tr th:each="package : ${packages}">
                                 <td th:text="${package.id}">1</td>
                                 <td>
-                                    <img th:src="@{'/uploads/' + ${package.imageUrl}}" class="img-thumbnail" alt="Package Image" width="50">
+                                    <img th:src="@{'/static/images/' + ${package.imageUrl}}" class="img-thumbnail" alt="Package Image" width="50">
                                 </td>
                                 <td th:text="${package.name}">Amazing Tour</td>
                                 <td th:text="${package.destination.name}">Paris</td>

@@ -69,7 +69,7 @@ public class AdminController {
  }
  
  @GetMapping("/users/{id}")
- public String viewUser(@PathVariable Long id, Model model) {
+ public String viewUser(@PathVariable("id") Long id, Model model) {
      User user = userService.getUserById(id)
              .orElseThrow(() -> new RuntimeException("User not found"));
      model.addAttribute("user", user);
@@ -120,7 +120,7 @@ public class AdminController {
          
          tourPackage.setItineraries(itineraryList);
      }
-     
+     tourPackage.setImageUrl(tourPackage.getImageUrl());
      tourPackageService.createTourPackage(tourPackage);
      redirectAttributes.addFlashAttribute("success", "Tour package saved successfully");
      return "redirect:/admin/packages";

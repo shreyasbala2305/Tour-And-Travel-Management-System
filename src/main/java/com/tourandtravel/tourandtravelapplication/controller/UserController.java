@@ -1,6 +1,7 @@
 package com.tourandtravel.tourandtravelapplication.controller;
 //src/main/java/com/tourandtravel/controller/UserController.java
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,6 +50,10 @@ public class UserController {
      List<Booking> bookings = bookingService.getBookingsByUserId(user.getId());
      List<Notification> notifications = notificationService.getUnreadNotificationsByUser(user);
      
+     long upcomingBookingsCount = bookings.stream()
+    	        .filter(b -> b.getTravelDate().isAfter(LocalDate.now()))
+    	        .count();
+     
      model.addAttribute("user", user);
      model.addAttribute("bookings", bookings);
      model.addAttribute("notifications", notifications);
@@ -86,7 +91,7 @@ public class UserController {
  }
  
  @GetMapping("/bookings/{id}")
- public String viewBookingDetails(@PathVariable Long id, Model model) {
+ public String viewBookingDetails(@PathVariable("id") Long id, Model model) {
      User user = getCurrentUser();
      Booking booking = bookingService.getBookingById(id)
              .orElseThrow(() -> new RuntimeException("Booking not found"));

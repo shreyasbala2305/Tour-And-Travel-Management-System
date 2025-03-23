@@ -46,6 +46,9 @@ public class HomeController {
  public String packageDetails(@PathVariable("id") Long id, Model model) {
      TourPackage tourPackage = tourPackageService.getTourPackageById(id)
              .orElseThrow(() -> new RuntimeException("Tour package not found"));
+     if (tourPackage == null) {
+         tourPackage = new TourPackage(); // Or use a default package
+     }
      model.addAttribute("package", tourPackage);
      return "common/package-details";
  }

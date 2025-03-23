@@ -48,7 +48,7 @@ public class BookingController {
  }
  
  @GetMapping("/new/{packageId}")
- public String newBookingForm(@PathVariable Long packageId, Model model) {
+ public String newBookingForm(@PathVariable("packageId") Long packageId, Model model) {
      TourPackage tourPackage = tourPackageService.getTourPackageById(packageId)
              .orElseThrow(() -> new RuntimeException("Tour package not found"));
      
@@ -60,9 +60,9 @@ public class BookingController {
  }
  
  @PostMapping("/create")
- public String createBooking(@RequestParam Long packageId,
-                            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate travelDate,
-                            @RequestParam int numberOfPeople,
+ public String createBooking(@RequestParam("packageId") Long packageId,
+                            @RequestParam("travelDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate travelDate,
+                            @RequestParam("numberOfPeople") int numberOfPeople,
                             RedirectAttributes redirectAttributes) {
      
      User user = getCurrentUser();
@@ -78,7 +78,7 @@ public class BookingController {
  }
  
  @GetMapping("/payment/{bookingId}")
- public String paymentForm(@PathVariable Long bookingId, Model model) {
+ public String paymentForm(@PathVariable("bookingId") Long bookingId, Model model) {
      User user = getCurrentUser();
      Booking booking = bookingService.getBookingById(bookingId)
              .orElseThrow(() -> new RuntimeException("Booking not found"));

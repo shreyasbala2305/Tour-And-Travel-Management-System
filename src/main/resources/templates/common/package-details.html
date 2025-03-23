@@ -3,113 +3,94 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Package Details - Tour and Travel</title>
+    <title>Tour Package Details</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
     <link rel="stylesheet" th:href="@{/css/styles.css}">
 </head>
 <body>
     <div th:replace="common/header :: header"></div>
     
-    <div class="container py-5">
+    <div class="container my-5">
         <div class="row">
             <div class="col-lg-8">
                 <div class="card mb-4">
-                    <img th:src="@{'/uploads/' + ${package.imageUrl}}" class="card-img-top" alt="Tour Package Image">
+                    <img th:src="@{'/uploads/' + ${package.imageUrl}}" class="card-img-top" alt="Tour Package">
                     <div class="card-body">
-                        <h2 class="card-title" th:text="${package.name}">Package Name</h2>
-                        <div class="d-flex justify-content-between mb-3">
-                            <span class="badge bg-primary rounded-pill p-2">
-                                <i class="bi bi-clock me-1"></i>
-                                <span th:text="${package.duration} + ' days'">7 Days</span>
-                            </span>
-                            <span class="fs-4 fw-bold text-primary" th:text="'$' + ${package.price}">$999</span>
-                        </div>
-                        <div class="mb-4">
-                            <h5>Description</h5>
-                            <p class="card-text" th:text="${package.description}">Package description here.</p>
-                        </div>
-                        
-                        <div class="mb-4">
-                            <h5>Itinerary</h5>
-                            <div class="accordion" id="itineraryAccordion">
-                                <div class="accordion-item" th:each="day, iter : ${#numbers.sequence(1, package.duration)}">
-                                    <h2 class="accordion-header">
-                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" 
-                                                th:data-bs-target="'#day' + ${iter.count}" 
-                                                th:aria-controls="'day' + ${iter.count}">
-                                            <span th:text="'Day ' + ${iter.count}">Day 1</span>
-                                        </button>
-                                    </h2>
-                                    <div th:id="'day' + ${iter.count}" class="accordion-collapse collapse" data-bs-parent="#itineraryAccordion">
-                                        <div class="accordion-body">
-                                            <p th:text="${package.getItineraryForDay(iter.count)}">
-                                                Detailed itinerary for this day will be displayed here.
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
+                        <h1 class="card-title" th:text="${package.name}">Tour Package Name</h1>
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <div class="badges">
+                                <span class="badge bg-primary me-2" th:text="${package.duration} + ' days'">7 days</span>
+                                <span class="badge bg-success" th:if="${package.featured}">Featured</span>
+                            </div>
+                            <div class="price">
+                                <h4 class="text-primary mb-0" th:text="'$' + ${package.price}">$999</h4>
+                                <small>per person</small>
                             </div>
                         </div>
+                        <h5>Destination</h5>
+                        <p><a th:href="@{'/destinations/' + ${package.destination.id}}" th:text="${package.destination.name}">Destination Name</a></p>
                         
-                        <div class="mb-4">
-                            <h5>Includes</h5>
-                            <ul class="list-group list-group-flush">
-                                <li class="list-group-item" th:each="include : ${package.includes}">
-                                    <i class="bi bi-check-circle-fill text-success me-2"></i>
-                                    <span th:text="${include}">Item included</span>
-                                </li>
-                            </ul>
+                        <h5>Description</h5>
+                        <p class="card-text" th:text="${package.description}">Detailed description of the tour package.</p>
+                        
+                        <h5>Itinerary</h5>
+                        <div class="itinerary" th:utext="${tourPackage != null ? tourPackage.itinerariesText : ''}">
+                            <!-- Formatted itinerary will go here -->
                         </div>
                         
-                        <div class="mb-4">
-                            <h5>Destination Information</h5>
-                            <div class="card">
-                                <div class="card-body">
-                                    <h6 class="card-title" th:text="${package.destination.name}">Destination Name</h6>
-                                    <p class="card-text" th:text="${package.destination.description}">
-                                        Destination description
-                                    </p>
-                                    <a th:href="@{'/destinations/' + ${package.destination.id}}" class="btn btn-sm btn-outline-primary">
-                                        Explore Destination
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
+                        <h5>Includes</h5>
+                        <ul class="list-group list-group-flush mb-3">
+                            <li class="list-group-item"><i class="bi bi-check-circle-fill text-success me-2"></i> Accommodation</li>
+                            <li class="list-group-item"><i class="bi bi-check-circle-fill text-success me-2"></i> Transportation</li>
+                            <li class="list-group-item"><i class="bi bi-check-circle-fill text-success me-2"></i> Tour Guide</li>
+                            <li class="list-group-item"><i class="bi bi-check-circle-fill text-success me-2"></i> Breakfast and Dinner</li>
+                        </ul>
                     </div>
                 </div>
             </div>
             
             <div class="col-lg-4">
-                <div class="card sticky-top" style="top: 20px;">
+                <div class="card">
                     <div class="card-header bg-primary text-white">
                         <h5 class="mb-0">Book This Package</h5>
                     </div>
                     <div class="card-body">
-                        <p class="mb-4">Ready to embark on this journey? Book now to secure your spot!</p>
-                        <div class="mb-3">
-                            <div class="d-flex justify-content-between">
-                                <span>Package Price:</span>
-                                <span class="fw-bold" th:text="'$' + ${package.price} + ' per person'">$999 per person</span>
+                        <form th:action="@{/booking/create}" method="post" sec:authorize="isAuthenticated()">
+                            <input type="hidden" name="packageId" th:value="${package.id}">
+                            
+                            <div class="mb-3">
+                                <label for="travelDate" class="form-label">Travel Date</label>
+                                <input type="date" class="form-control" id="travelDate" name="travelDate" required>
                             </div>
-                        </div>
-                        <div class="d-grid">
-                            <a th:href="@{'/booking/new/' + ${package.id}}" class="btn btn-primary">Book Now</a>
+                            
+                            <div class="mb-3">
+                                <label for="numberOfPeople" class="form-label">Number of People</label>
+                                <input type="number" class="form-control" id="numberOfPeople" name="numberOfPeople" min="1" value="1" required>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="specialRequests" class="form-label">Special Requests</label>
+                                <textarea class="form-control" id="specialRequests" name="specialRequests" rows="3"></textarea>
+                            </div>
+                            
+                            <button type="submit" class="btn btn-primary w-100">Book Now</button>
+                        </form>
+                        
+                        <div class="text-center mt-3" sec:authorize="!isAuthenticated()">
+                            <p>Please <a th:href="@{/login}">login</a> to book this package.</p>
                         </div>
                     </div>
                 </div>
                 
                 <div class="card mt-4">
-                    <div class="card-header bg-light">
-                        <h5 class="mb-0">Why Book With Us?</h5>
+                    <div class="card-header">
+                        <h5 class="mb-0">Contact Us</h5>
                     </div>
                     <div class="card-body">
-                        <ul class="list-unstyled">
-                            <li class="mb-2"><i class="bi bi-shield-check text-success me-2"></i> Best Price Guarantee</li>
-                            <li class="mb-2"><i class="bi bi-credit-card text-success me-2"></i> Secure Payments</li>
-                            <li class="mb-2"><i class="bi bi-headset text-success me-2"></i> 24/7 Support</li>
-                            <li class="mb-2"><i class="bi bi-calendar-check text-success me-2"></i> Flexible Cancellation</li>
-                        </ul>
+                        <p><i class="bi bi-telephone-fill me-2"></i> +1 (123) 456-7890</p>
+                        <p><i class="bi bi-envelope-fill me-2"></i> info@tourandtravel.com</p>
+                        <a href="#" class="btn btn-outline-primary w-100" th:href="@{/contact}">Send Message</a>
                     </div>
                 </div>
             </div>

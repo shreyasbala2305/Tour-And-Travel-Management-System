@@ -78,7 +78,7 @@
                                 <div class="d-flex justify-content-between align-items-center">
                                     <div>
                                         <h6 class="mb-0">Upcoming Trips</h6>
-                                        <h2 class="mb-0" th:text="${bookings.stream().filter(b -> b.travelDate.isAfter(T(java.time.LocalDate).now())).count()}">0</h2>
+                                        <h2 class="mb-0" th:text="${upcomingBookingsCount}">0</h2>
                                     </div>
                                     <i class="bi bi-airplane fs-1"></i>
                                 </div>

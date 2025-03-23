@@ -22,7 +22,7 @@ public class NotificationService {
  }
  
  public List<Notification> getUnreadNotificationsByUser(User user) {
-     return notificationRepository.findByUserAndReadFalseOrderByCreatedAtDesc(user);
+     return notificationRepository.findByUserAndIsreadFalseOrderByCreatedAtDesc(user);
  }
  
  public Notification createNotification(User user, String message, LocalDateTime createdAt, Notification.NotificationType type) {
@@ -30,7 +30,7 @@ public class NotificationService {
      notification.setUser(user);
      notification.setMessage(message);
      notification.setCreatedAt(createdAt);
-     notification.setRead(false);
+     notification.setIsread(false);
      notification.setType(type);
      
      return notificationRepository.save(notification);
@@ -40,14 +40,14 @@ public class NotificationService {
      Notification notification = notificationRepository.findById(notificationId)
              .orElseThrow(() -> new RuntimeException("Notification not found"));
      
-     notification.setRead(true);
+     notification.setIsread(true);
      return notificationRepository.save(notification);
  }
  
  public void markAllAsRead(User user) {
-     List<Notification> notifications = notificationRepository.findByUserAndReadFalseOrderByCreatedAtDesc(user);
+     List<Notification> notifications = notificationRepository.findByUserAndIsreadFalseOrderByCreatedAtDesc(user);
      for (Notification notification : notifications) {
-         notification.setRead(true);
+         notification.setIsread(true);
          notificationRepository.save(notification);
      }
  }

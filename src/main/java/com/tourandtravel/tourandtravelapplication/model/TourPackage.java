@@ -17,13 +17,12 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 import lombok.Data;
-import lombok.ToString;
 
 @Data
 @Entity
 @Table(name = "tour_packages")
-@ToString(exclude = "destinations")
 public class TourPackage {
  
  @Id
@@ -56,6 +55,7 @@ public class TourPackage {
  @OneToMany(mappedBy = "tourPackage", cascade = CascadeType.ALL)
  private List<Itinerary> itineraries = new ArrayList<>();
  
+ @Transient
  private String itinerariesText;
  
  public String getItinerariesText() {
@@ -64,8 +64,13 @@ public class TourPackage {
     }
     
     return itineraries.stream()
-    	    .map(i -> (String)("Day " + i.getDayNumber() + ": " + i.getDescription()))
-    	    .collect(Collectors.joining("\n"));
+            .map(i -> "Day " + i.getDayNumber() + ": " + i.getTitle() + "\n" + 
+                      i.getDescription() + "\n" + 
+                      "Location: " + i.getLocation() + "\n" + 
+                      "Activities: " + i.getActivities() + "\n" + 
+                      "Meals: " + i.getMeals() + "\n" + 
+                      "Accommodation: " + i.getAccommodation())
+            .collect(Collectors.joining("\n\n"));
 }
 
 public void setItinerariesText(String text) {

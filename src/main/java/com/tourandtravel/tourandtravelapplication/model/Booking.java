@@ -25,6 +25,8 @@ public class Booking {
  
  private LocalDate bookingDate;
  
+ private String bookingReference;
+ 
  private LocalDate travelDate;
  
  private int numberOfPeople;
