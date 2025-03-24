@@ -55,7 +55,7 @@
                             <tr th:each="destination : ${destinations}">
                                 <td th:text="${destination.id}">1</td>
                                 <td>
-                                    <img th:src="@{'/uploads/' + ${destination.imageUrl}}" th:if="${destination.imageUrl}" class="img-thumbnail" alt="Destination Image" width="50">
+                                    <img th:src="@{'/images/' + ${destination.imageUrl}}" th:if="${destination.imageUrl}" class="img-thumbnail" alt="Destination Image" width="50">
                                     <span th:unless="${destination.imageUrl}">No image</span>
                                 </td>
                                 <td th:text="${destination.name}">Paris</td>

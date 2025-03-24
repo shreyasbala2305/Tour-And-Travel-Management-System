@@ -56,7 +56,7 @@
                         <tbody>
                             <tr th:each="booking : ${bookings}">
                                 <td th:text="${booking.id}">1</td>
-                                <td th:text="${booking.user.firstName + ' ' + booking.user.lastName}">John Doe</td>
+                                <td th:text="${booking.user.fullName}">John Doe</td>
                                 <td th:text="${booking.tourPackage.name}">Paris Adventure</td>
                                 <td th:text="${#temporals.format(booking.travelDate, 'MMM dd, yyyy')}">Apr 15, 2025</td>
                                 <td th:text="${booking.numberOfPeople}">2</td>

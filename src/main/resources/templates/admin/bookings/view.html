@@ -58,8 +58,15 @@
                                     }" th:text="${booking.status}">PENDING</span>
                                 </p>
                                 <p><strong>Total Amount:</strong> <span th:text="${'$' + booking.totalAmount}">$1998</span></p>
-                                <p><strong>Payment Method:</strong> <span th:text="${booking.paymentMethod}">Credit Card</span></p>
-                                <p><strong>Payment Status:</strong> <span th:text="${booking.paymentStatus}">PAID</span></p>
+                                <p><strong>Payment Method:</strong> <span th:text="${booking.payment.paymentMethod}">Credit Card</span></p>
+                                <p><strong>Payment Status:</strong> <span th:text="${booking?.paymentStatus ?: 'No payment information'}"></span>
+                                <span class="badge" th:classappend="${booking.paymentStatus
+											}" th:switch="${#strings.toString(booking.paymentStatus)}">
+											  <span th:case="${#strings.toString(T(com.tourandtravel.tourandtravelapplication.model.Booking.PaymentStatus).COMPLETED)}" class="bg-success">Completed</span>
+											  <span th:case="${#strings.toString(T(com.tourandtravel.tourandtravelapplication.model.Booking.PaymentStatus).PENDING)}" class="bg-warning">Pending</span>
+											  <span th:case="${#strings.toString(T(com.tourandtravel.tourandtravelapplication.model.Booking.PaymentStatus).FAILED)}" class="bg-danger">Cancelled</span>
+											  <span th:case="*" class="bg-secondary">Unknown</span>
+											</span></p>
                             </div>
                         </div>
                         

@@ -70,14 +70,17 @@
                                         <td th:text="${booking.bookingReference}">REF12345</td>
                                         <td th:text="${booking.tourPackage.name}">Tour Package</td>
                                         <td th:text="${#temporals.format(booking.travelDate, 'MMM dd, yyyy')}">Mar 20, 2025</td>
-                                        <td th:text="${booking.numberOfTravelers}">2</td>
+                                        <td th:text="${booking.numberOfPeople}">2</td>
                                         <td th:text="'$' + ${booking.totalAmount}">$1,998</td>
                                         <td>
-                                            <span th:class="${'badge ' + 
-                                                (booking.status == T(com.tourandtravel.tourandtravelapplication.model.Booking.BookingStatus).CONFIRMED ? 'bg-success' : 
-                                                (booking.status == T(com.tourandtravel.tourandtravelapplication.model.Booking.BookingStatus).PENDING ? 'bg-warning' : 
-                                                (booking.status == T(com.tourandtravel.tourandtravelapplication.model.Booking.BookingStatus).CANCELLED ? 'bg-danger' : 'bg-secondary')))}"
-                                                  th:text="${booking.status}">Status</span>
+                                            <span class="badge" th:classappend="${
+											  booking.status
+											}" th:switch="${#strings.toString(booking.status)}">
+											  <span th:case="${#strings.toString(T(com.tourandtravel.tourandtravelapplication.model.Booking.BookingStatus).CONFIRMED)}" class="bg-success">Confirmed</span>
+											  <span th:case="${#strings.toString(T(com.tourandtravel.tourandtravelapplication.model.Booking.BookingStatus).PENDING)}" class="bg-warning">Pending</span>
+											  <span th:case="${#strings.toString(T(com.tourandtravel.tourandtravelapplication.model.Booking.BookingStatus).CANCELLED)}" class="bg-danger">Cancelled</span>
+											  <span th:case="*" class="bg-secondary">Unknown</span>
+											</span>
                                         </td>
                                         <td>
                                             <a th:href="@{'/user/bookings/' + ${booking.id}}" class="btn btn-sm btn-primary">

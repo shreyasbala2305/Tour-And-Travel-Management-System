@@ -53,6 +53,36 @@
                         <div class="invalid-feedback" th:if="${#fields.hasErrors('description')}" th:errors="*{description}">Description error</div>
                     </div>
                     
+                    <!-- New fields added here -->
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label for="weather" class="form-label">Weather</label>
+                            <input type="text" class="form-control" id="weather" th:field="*{weather}">
+                            <div class="invalid-feedback" th:if="${#fields.hasErrors('weather')}" th:errors="*{weather}">Weather error</div>
+                        </div>
+                        
+                        <div class="col-md-6">
+                            <label for="currency" class="form-label">Currency</label>
+                            <input type="text" class="form-control" id="currency" th:field="*{currency}">
+                            <div class="invalid-feedback" th:if="${#fields.hasErrors('currency')}" th:errors="*{currency}">Currency error</div>
+                        </div>
+                    </div>
+                    
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label for="bestTimeToVisit" class="form-label">Best Time To Visit</label>
+                            <input type="text" class="form-control" id="bestTimeToVisit" th:field="*{bestTimeToVisit}">
+                            <div class="invalid-feedback" th:if="${#fields.hasErrors('bestTimeToVisit')}" th:errors="*{bestTimeToVisit}">Best Time To Visit error</div>
+                        </div>
+                        
+                        <div class="col-md-6">
+                            <label for="language" class="form-label">Language</label>
+                            <input type="text" class="form-control" id="language" th:field="*{language}">
+                            <div class="invalid-feedback" th:if="${#fields.hasErrors('language')}" th:errors="*{language}">Language error</div>
+                        </div>
+                    </div>
+                    <!-- End of new fields -->
+                    
                     <div class="row mb-3">
                         <div class="col-md-6">
                             <div class="mb-3">
@@ -64,7 +94,7 @@
                             <div class="mb-3" th:if="${destination.imageUrl}">
                                 <label class="form-label">Current Image</label>
                                 <div>
-                                    <img th:src="@{'/uploads/' + ${destination.imageUrl}}" class="img-thumbnail" alt="Destination Image" style="max-width: 200px;">
+                                    <img th:src="@{'/images/' + ${destination.imageUrl}}" class="img-thumbnail" alt="Destination Image" style="max-width: 200px;">
                                     <input type="hidden" th:field="*{imageUrl}" />
                                 </div>
                             </div>

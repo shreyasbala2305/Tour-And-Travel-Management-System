@@ -158,7 +158,7 @@ public class AdminController {
  }
  
  @GetMapping("/bookings/{id}")
- public String viewBooking(@PathVariable Long id, Model model) {
+ public String viewBooking(@PathVariable("id") Long id, Model model) {
      Booking booking = bookingService.getBookingById(id)
              .orElseThrow(() -> new RuntimeException("Booking not found"));
      model.addAttribute("booking", booking);

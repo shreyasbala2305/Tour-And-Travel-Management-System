@@ -32,7 +32,7 @@ public class SecurityConfig {
          )
          .formLogin(form -> form
              .loginPage("/login")
-             .defaultSuccessUrl("/admin/dashboard")
+             .defaultSuccessUrl("/packages")
              .permitAll()
          )
          .logout(logout -> logout

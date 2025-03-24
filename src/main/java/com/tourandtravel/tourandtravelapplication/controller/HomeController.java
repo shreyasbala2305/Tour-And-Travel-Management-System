@@ -61,7 +61,7 @@ public class HomeController {
  }
  
  @GetMapping("/destinations/{id}")
- public String destinationDetails(@PathVariable Long id, Model model) {
+ public String destinationDetails(@PathVariable("id") Long id, Model model) {
      Destination destination = destinationService.getDestinationById(id)
              .orElseThrow(() -> new RuntimeException("Destination not found"));
      List<TourPackage> packages = tourPackageService.getTourPackagesByDestination(id);

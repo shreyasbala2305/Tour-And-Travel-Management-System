@@ -2,6 +2,7 @@ package com.tourandtravel.tourandtravelapplication.controller;
 //src/main/java/com/tourandtravel/controller/BookingController.java
 
 import java.time.LocalDate;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -87,7 +88,7 @@ public class BookingController {
      if (!booking.getUser().getId().equals(user.getId())) {
          throw new RuntimeException("Unauthorized access to booking");
      }
-     
+     booking.setBookingReference(UUID.randomUUID().toString().substring(0, 8).toUpperCase());
      model.addAttribute("booking", booking);
      model.addAttribute("paymentMethods", Payment.PaymentMethod.values());
      

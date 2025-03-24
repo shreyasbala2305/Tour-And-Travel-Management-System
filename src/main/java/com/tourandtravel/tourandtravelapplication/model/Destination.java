@@ -36,6 +36,14 @@ public class Destination {
  
  private String mapLocation;
  
+ private String weather;
+ 
+ private String currency;
+ 
+ private String bestTimeToVisit;
+ 
+ private String language;
+ 
  private int attractionCount;
  
  private boolean popular;
